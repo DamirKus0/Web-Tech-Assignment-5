@@ -10,38 +10,28 @@ function addTask(){
         completed: false
     });
     input.value = "";
-    renderTasks();
+    displayTasks();
 }
-function renderTasks() {
+function displayTasks() {
     const list = document.getElementById("taskList");
     list.innerHTML = "";
-
     for (let i = 0; i < tasks.length; i++) {
         const item = document.createElement("li");
-        const text = document.createElement("span");
-        const deleteButton = document.createElement("button");
-
-        text.textContent = tasks[i].text;
-        text.setAttribute("onclick", "toggleTask(" + i + ")");
-        text.style.cursor = "pointer";
-
+        item.innerHTML =
+            "<span onclick='toggleTask(" + i + ")'></span> " +
+            "<button onclick='removeTask(" + i + ")'>Delete</button>";
+        item.querySelector("span").textContent = tasks[i].text;
         if (tasks[i].completed) {
-            text.style.textDecoration = "line-through";
+            item.className = "completed";
         }
-
-        deleteButton.textContent = "Delete";
-        deleteButton.setAttribute("onclick", "deleteTask(" + i + ")");
-
-        item.appendChild(text);
-        item.appendChild(deleteButton);
         list.appendChild(item);
     }
 }
-function deleteTask(index) {
+function removeTask(index) {
     tasks.splice(index, 1);
-    renderTasks();
+    displayTasks();
 }
 function toggleTask(index) {
     tasks[index].completed = !tasks[index].completed;
-    renderTasks();
+    displayTasks();
 }
